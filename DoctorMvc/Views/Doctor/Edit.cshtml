@@ -1,0 +1,91 @@
+﻿@model DoctorMvc.DtoViewModel.EditViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Doctor</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group d-none">
+            <label asp-for="Doctor.DoctorId" class="control-label fw-bold"></label>
+            <input asp-for="Doctor.DoctorId" class="form-control" id="idBox" />
+            <span asp-validation-for="Doctor.DoctorId" class="text-danger"></span>
+        </div><br />
+        <div class="form-group">
+            <label asp-for="Doctor.Name" class="control-label fw-bold"></label>
+            <input asp-for="Doctor.Name" class="form-control" disabled />
+            <span asp-validation-for="Doctor.Name" class="text-danger"></span>
+        </div><br />
+        <div class="form-group">
+            <label asp-for="Doctor.Gender" class="control-label fw-bold"></label>
+            <input asp-for="Doctor.Gender" class="form-control" disabled />
+            <span asp-validation-for="Doctor.Gender" class="text-danger"></span>
+        </div><br />
+        <div class="form-group">
+            <label asp-for="Doctor.Qualification" class="control-label fw-bold"></label>
+            <input asp-for="Doctor.Qualification" class="form-control" id="quaBox" />
+            <span asp-validation-for="Doctor.Qualification" class="text-danger"></span>
+        </div><br />
+        <div class="form-group">
+            @Html.LabelFor(x => Model.Doctor.Dept_Id, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.DropDownListFor(x => Model.Doctor.Dept_Id, new SelectList(Model.Department, "Id", "DepartmentName"),"--Select--", new{@id="deptBox"})
+        </div><br />
+        <div class="form-group">
+            <label asp-for="Doctor.MobileNo" class="control-label fw-bold"></label>
+            <input asp-for="Doctor.MobileNo" class="form-control" id="noBox" />
+            <span asp-validation-for="Doctor.MobileNo" class="text-danger"></span>
+        </div><br />
+        <div class="form-group">
+            <label asp-for="Doctor.AvailableDays" class="control-label fw-bold"></label>
+            <input asp-for="Doctor.AvailableDays" class="form-control" id="daysBox" />
+            <span asp-validation-for="Doctor.AvailableDays" class="text-danger"></span>
+        </div><br />
+        <div class="form-group">
+            <input type="submit" id="subBtn" value="Update" class="btn btn-primary" />&nbsp;|&nbsp;
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var BaseUrl = "https://localhost:44374";
+      $("#subBtn").click(function () {
+          var DoctorDetails = {
+              DoctorId:$('#idBox').val(),
+              Qualification:$('#quaBox').val(),
+              Dept_Id:$('#deptBox').val(),
+              MobileNo:$('#noBox').val(),
+              AvailableDays:$('#daysBox').val()
+          };
+          $.ajax({
+                type:'POST',
+                url:BaseUrl+'/api/Doctor/Edit',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(DoctorDetails),
+                success: function (response) {
+                    alert("Updated successfully");
+                    window.location = "https://localhost:44309/Doctor";
+                    $('#quaBox').val(response.Qualification);
+                    $('#deptBox').val(response.Dept_Id);
+                    $('#noBox').val(response.MobileNo);
+                    $('#daysBox').val(response.AvailableDays)
+                },
+                error: function (response) {
+                    alert("error");
+                }
+          });
+      });
+    });
+</script>
+
+
+}

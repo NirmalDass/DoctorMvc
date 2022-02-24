@@ -127,7 +127,6 @@ namespace DoctorMvc.Controllers
             {
                 return RedirectToAction("Index");
             }
-            //ViewBag.Dept_Id = new SelectList(model.Dept_Id, "Id", "DepartmentName", model.Dept_Id);
             return View(model);
         }
 

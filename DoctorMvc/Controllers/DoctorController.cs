@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DoctorMvc.Controllers
 {
-    public class DoctorController : Controller
+    public class DoctorController : Controller1
     {
         string Baseurl = "https://localhost:44374/";
         HttpClient client;
